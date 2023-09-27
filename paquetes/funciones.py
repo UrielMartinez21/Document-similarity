@@ -3,10 +3,14 @@ from sklearn.feature_extraction.text import CountVectorizer, TfidfVectorizer    
 from tkinter import filedialog                                                  # Cuadro de dialogo
 from spacy.lang.es.stop_words import STOP_WORDS                                 # Palabras vacias
 import spacy                                                                    # Procesamiento de lenguaje natural
+import math                                                                     # Matematicas
 
 # ---------------------| Funciones |---------------------
 def leer_corpus(ruta):
-    """Leer corpus preparado"""
+    """
+    Leer corpus preparado
+    return: lista
+    """
 
     with open(ruta, "r", encoding="utf-8") as informacion:
         corpus = informacion.read().split('\n')
@@ -14,7 +18,10 @@ def leer_corpus(ruta):
 
 
 def cargar_archivo():
-    """Cargar archivo txt de usuario"""
+    """
+    Lee archivo de usuario
+    return: lista
+    """
 
     ruta_archivo = filedialog.askopenfilename(title="Abrir archivo", filetypes=(("Archivos de texto", "*.txt"),))
     print(f'[+]Ruta de archivo: {ruta_archivo}')
@@ -24,7 +31,10 @@ def cargar_archivo():
 
 
 def crear_vector_binario(corpus):
-    """Función para vectorizar el corpus en binario"""
+    """
+    Función para vectorizar el corpus en binario
+    return: lista
+    """
 
     vectorizador_binario = CountVectorizer(binary=True, token_pattern=r'(?u)\w\w+|\w\w+\n|\.')
     X = vectorizador_binario.fit_transform(corpus)
@@ -33,7 +43,10 @@ def crear_vector_binario(corpus):
 
 
 def crear_vector_frecuencia(corpus):
-    """Función para vectorizar el corpus por frecuencia"""
+    """
+    Función para vectorizar el corpus por frecuencia
+    return: lista
+    """
 
     vectorizador_frecuencia = CountVectorizer(token_pattern=r'(?u)\w\w+|\w\w+\n|\.')
     X = vectorizador_frecuencia.fit_transform(corpus)
@@ -42,7 +55,10 @@ def crear_vector_frecuencia(corpus):
 
 
 def crear_vector_tfidf(corpus):
-    """Función para vectorizar el corpus por tf-idf"""
+    """
+    Función para vectorizar el corpus por tf-idf
+    return: lista
+    """
 
     vectorizador_tfidf = TfidfVectorizer(token_pattern=r'(?u)\w\w+|\w\w+\n|\.')
     X = vectorizador_tfidf.fit_transform(corpus)
@@ -51,7 +67,10 @@ def crear_vector_tfidf(corpus):
 
 
 def normalizar_corpus(lista_noticias):
-    """Función para normalizar el corpus"""
+    """
+    Función para normalizar el corpus
+    return: lista
+    """
 
     nlp = spacy.load("es_core_news_sm")
 
@@ -91,3 +110,16 @@ def normalizar_corpus(lista_noticias):
 
     # Retornar el corpus filtrado
     return corpus_filtrado
+
+
+def cosine(x, y):
+    """
+    Función para calcular la similitud coseno
+    return: float
+    """
+
+    val = sum(x[index] * y[index] for index in range(len(x)))
+    sr_x = math.sqrt(sum(x_val**2 for x_val in x))
+    sr_y = math.sqrt(sum(y_val**2 for y_val in y))
+    res = val/(sr_x*sr_y)
+    return (res)
