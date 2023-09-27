@@ -2,6 +2,8 @@
 import tkinter                                                              # Interfaz gráfica
 from paquetes.funciones import *                                            # Funciones para precargar información
 
+# Adrian
+
 # ---------------------------| Precargar información |---------------------------
 
 # Cargar corpus
