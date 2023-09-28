@@ -1,5 +1,4 @@
 # ---------------------| Bibliotecas |---------------------
-from sklearn.feature_extraction.text import CountVectorizer, TfidfVectorizer    # Vectorizador
 from tkinter import filedialog                                                  # Cuadro de dialogo
 from spacy.lang.es.stop_words import STOP_WORDS                                 # Palabras vacias
 import spacy                                                                    # Procesamiento de lenguaje natural
@@ -30,40 +29,40 @@ def cargar_archivo():
     return noticias_seleccionadas
 
 
-def crear_vector_binario(corpus):
-    """
-    Función para vectorizar el corpus en binario
-    return: lista
-    """
+# def crear_vector_binario(corpus):
+#     """
+#     Función para vectorizar el corpus en binario
+#     return: lista
+#     """
 
-    vectorizador_binario = CountVectorizer(binary=True, token_pattern=r'(?u)\w\w+|\w\w+\n|\.')
-    X = vectorizador_binario.fit_transform(corpus)
-    print('[+]Se creo el vector binario')
-    return X.toarray()
-
-
-def crear_vector_frecuencia(corpus):
-    """
-    Función para vectorizar el corpus por frecuencia
-    return: lista
-    """
-
-    vectorizador_frecuencia = CountVectorizer(token_pattern=r'(?u)\w\w+|\w\w+\n|\.')
-    X = vectorizador_frecuencia.fit_transform(corpus)
-    print('[+]Se creo el vector de frecuencia')
-    return X.toarray()
+#     vectorizador_binario = CountVectorizer(binary=True, token_pattern=r'(?u)\w\w+|\w\w+\n|\.')
+#     X = vectorizador_binario.fit_transform(corpus)
+#     print('[+]Se creo el vector binario')
+#     return X.toarray()
 
 
-def crear_vector_tfidf(corpus):
-    """
-    Función para vectorizar el corpus por tf-idf
-    return: lista
-    """
+# def crear_vector_frecuencia(corpus):
+#     """
+#     Función para vectorizar el corpus por frecuencia
+#     return: lista
+#     """
 
-    vectorizador_tfidf = TfidfVectorizer(token_pattern=r'(?u)\w\w+|\w\w+\n|\.')
-    X = vectorizador_tfidf.fit_transform(corpus)
-    print('[+]Se creo el vector tf-idf')
-    return X.toarray()
+#     vectorizador_frecuencia = CountVectorizer(token_pattern=r'(?u)\w\w+|\w\w+\n|\.')
+#     X = vectorizador_frecuencia.fit_transform(corpus)
+#     print('[+]Se creo el vector de frecuencia')
+#     return X.toarray()
+
+
+# def crear_vector_tfidf(corpus):
+#     """
+#     Función para vectorizar el corpus por tf-idf
+#     return: lista
+#     """
+
+#     vectorizador_tfidf = TfidfVectorizer(token_pattern=r'(?u)\w\w+|\w\w+\n|\.')
+#     X = vectorizador_tfidf.fit_transform(corpus)
+#     print('[+]Se creo el vector tf-idf')
+#     return X.toarray()
 
 
 def normalizar_corpus(lista_noticias):
