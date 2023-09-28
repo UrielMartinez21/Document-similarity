@@ -35,8 +35,7 @@ def opcion_vectorB():
     texto_usuario = cargar_archivo()
     texto_normalizado = normalizar_corpus(texto_usuario)
     # --> Crear vector binario
-    vectorB_usuario = vectorizador_binario.transform(texto_normalizado)
-
+    vectorB_usuario = vectorizador_binario.transform(texto_normalizado).toarray()
 
 
 def opcion_vectorF():
@@ -48,8 +47,7 @@ def opcion_vectorF():
     texto_usuario = cargar_archivo()
     texto_normalizado = normalizar_corpus(texto_usuario)
     # --> Crear vector frecuencia
-    vectorF_usuario = vectorizador_frecuencia.transform(texto_normalizado)
-
+    vectorF_usuario = vectorizador_frecuencia.transform(texto_normalizado).toarray()
 
 
 def opcion_vectorTF():
@@ -61,7 +59,7 @@ def opcion_vectorTF():
     texto_usuario = cargar_archivo()
     texto_normalizado = normalizar_corpus(texto_usuario)
     # --> Crear vector tf-idf
-    vectorTF_usuario = vectorizador_tfidf.transform(texto_normalizado)
+    vectorTF_usuario = vectorizador_tfidf.transform(texto_normalizado).toarray()
 
 
 # ---------------------------| Inicio de interfaz |---------------------------
