@@ -23,46 +23,9 @@ def cargar_archivo():
     """
 
     ruta_archivo = filedialog.askopenfilename(title="Abrir archivo", filetypes=(("Archivos de texto", "*.txt"),))
-    print(f'[+]Ruta de archivo: {ruta_archivo}')
     with open(ruta_archivo, "r", encoding="utf-8") as informacion:
         noticias_seleccionadas = informacion.read().split('\n')
     return noticias_seleccionadas
-
-
-# def crear_vector_binario(corpus):
-#     """
-#     Función para vectorizar el corpus en binario
-#     return: lista
-#     """
-
-#     vectorizador_binario = CountVectorizer(binary=True, token_pattern=r'(?u)\w\w+|\w\w+\n|\.')
-#     X = vectorizador_binario.fit_transform(corpus)
-#     print('[+]Se creo el vector binario')
-#     return X.toarray()
-
-
-# def crear_vector_frecuencia(corpus):
-#     """
-#     Función para vectorizar el corpus por frecuencia
-#     return: lista
-#     """
-
-#     vectorizador_frecuencia = CountVectorizer(token_pattern=r'(?u)\w\w+|\w\w+\n|\.')
-#     X = vectorizador_frecuencia.fit_transform(corpus)
-#     print('[+]Se creo el vector de frecuencia')
-#     return X.toarray()
-
-
-# def crear_vector_tfidf(corpus):
-#     """
-#     Función para vectorizar el corpus por tf-idf
-#     return: lista
-#     """
-
-#     vectorizador_tfidf = TfidfVectorizer(token_pattern=r'(?u)\w\w+|\w\w+\n|\.')
-#     X = vectorizador_tfidf.fit_transform(corpus)
-#     print('[+]Se creo el vector tf-idf')
-#     return X.toarray()
 
 
 def normalizar_corpus(lista_noticias):
