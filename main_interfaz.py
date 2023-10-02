@@ -41,15 +41,14 @@ def opcion_vectorB():
         # --> Crear vector binario
         vectorB_usuario = vectorizador_binario.transform(texto_normalizado).toarray()
         # --> Determinar similitud
-        lista = [cosine(vector_binario[i], vectorB_usuario[0]) for i in range(len(vector_binario))]
+        lista = [(cosine(vector_binario[i], vectorB_usuario[0]), i) for i in range(len(vector_binario))]
         # --> Primeros 10 documentos más similares
         resultados = sorted(lista, reverse=True)[:10]
         # --> Multiplicar por 100 para obtener porcentaje
-        resultados = [f"{i+1}) {round(resultados[i] * 100, 2)}%" for i in range(len(resultados))]
+        resultados = [f"{i+1}) {round(resultados[i][0] * 100, 2)}%    Documento: {resultados[i][1]}" for i in range(len(resultados))]
         # --> Agregar cada valor de la lista en un nuevo renglón
         for resultado in resultados:
             texto_resultados.insert(tkinter.END, f'{resultado}\n')
-        print("[+]Termino la ejecución")
     except:
         print("[-]Se cancelo la ejecución")
 
@@ -69,11 +68,11 @@ def opcion_vectorF():
         # --> Crear vector frecuencia
         vectorF_usuario = vectorizador_frecuencia.transform(texto_normalizado).toarray()
         # --> Determinar similitud
-        lista = [cosine(vector_frecuencia[i], vectorF_usuario[0]) for i in range(len(vector_frecuencia))]
+        lista = [(cosine(vector_frecuencia[i], vectorF_usuario[0]), i) for i in range(len(vector_frecuencia))]
         # --> Primeros 10 documentos más similares
         resultados = sorted(lista, reverse=True)[:10]
         # --> Multiplicar por 100 para obtener porcentaje
-        resultados = [f"{i+1}) {round(resultados[i] * 100, 2)}%" for i in range(len(resultados))]
+        resultados = [f"{i+1}) {round(resultados[i][0] * 100, 2)}%    Documento: {resultados[i][1]}" for i in range(len(resultados))]
         # --> Agregar cada valor de la lista en un nuevo renglón
         for resultado in resultados:
             texto_resultados.insert(tkinter.END, f'{resultado}\n')
@@ -97,11 +96,11 @@ def opcion_vectorTF():
         # --> Crear vector tf-idf
         vectorTF_usuario = vectorizador_tfidf.transform(texto_normalizado).toarray()
         # --> Determinar similitud
-        lista = [cosine(vector_tfidf[i], vectorTF_usuario[0]) for i in range(len(vector_tfidf))]
+        lista = [(cosine(vector_tfidf[i], vectorTF_usuario[0]), i) for i in range(len(vector_tfidf))]
         # --> Primeros 10 documentos más similares
         resultados = sorted(lista, reverse=True)[:10]
         # --> Multiplicar por 100 para obtener porcentaje
-        resultados = [f"{i+1}) {round(resultados[i] * 100, 2)}%" for i in range(len(resultados))]
+        resultados = [f"{i+1}) {round(resultados[i][0] * 100, 2)}%    Documento: {resultados[i][1]}" for i in range(len(resultados))]
         # --> Agregar cada valor de la lista en un nuevo renglón
         for resultado in resultados:
             texto_resultados.insert(tkinter.END, f'{resultado}\n')
@@ -131,7 +130,7 @@ texto_resultados = tkinter.Text(ventana, bg="white", font=("Arial", 12))
 texto_resultados.place(relx=0.1, rely=0.45, relwidth=0.8, relheight=0.35)
 
 # Titulo de ventana
-nombre_ventana = tkinter.Label(text="Selecciona un tipo", bg="white", font="bold")
+nombre_ventana = tkinter.Label(text="Selecciona un tipo", bg="white", font="bold", justify="center")
 
 # Ubicar titulo en interfaz
 nombre_ventana.place(relx=0.25, rely=0.05, relwidth=0.45, relheight=0.08)
