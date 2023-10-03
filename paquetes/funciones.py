@@ -3,6 +3,8 @@ from tkinter import filedialog                                                  
 from spacy.lang.es.stop_words import STOP_WORDS                                 # Palabras vacias
 import spacy                                                                    # Procesamiento de lenguaje natural
 import math                                                                     # Matematicas
+import os                                                                       # Rutas ingresadas
+import re                                                                       # Obtener expresiones regulares
 
 # ---------------------| Funciones |---------------------
 def leer_corpus(ruta):
@@ -23,9 +25,11 @@ def cargar_archivo():
     """
 
     ruta_archivo = filedialog.askopenfilename(title="Abrir archivo", filetypes=(("Archivos de texto", "*.txt"),))
+    nombre_archivo= os.path.splitext(os.path.basename(ruta_archivo))[0]
+    numero = re.findall(r'\d+', nombre_archivo)
     with open(ruta_archivo, "r", encoding="utf-8") as informacion:
         noticias_seleccionadas = informacion.read().split('\n')
-    return noticias_seleccionadas
+    return noticias_seleccionadas, numero[0]
 
 
 def normalizar_corpus(lista_noticias):

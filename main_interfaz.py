@@ -1,6 +1,7 @@
 # ---------------------------| Bibliotecas |---------------------------
 from sklearn.feature_extraction.text import CountVectorizer, TfidfVectorizer    # Vectorizador
-import tkinter                                                                  # Interfaz gráfica
+import tkinter
+from tkinter import ttk                                                                # Interfaz gráfica
 from paquetes.funciones import *                                                # Funciones para precargar información
 
 # ---------------------------| Precargar información |---------------------------
@@ -33,10 +34,11 @@ def opcion_vectorB():
     """
     print("[+]Inicia la ejecución...")
     # --> Borrar el contenido actual del widget de texto
-    texto_resultados.delete('1.0', tkinter.END)
+    borrar_contenido()
     try:
         # --> Preparar texto usuario
-        texto_usuario = cargar_archivo()
+        texto_usuario, num_prueba = cargar_archivo()
+        insertar_datos_principales(num_prueba, texto_usuario[0])
         texto_normalizado = normalizar_corpus(texto_usuario)
         # --> Crear vector binario
         vectorB_usuario = vectorizador_binario.transform(texto_normalizado).toarray()
@@ -44,11 +46,11 @@ def opcion_vectorB():
         lista = [(cosine(vector_binario[i], vectorB_usuario[0]), i) for i in range(len(vector_binario))]
         # --> Primeros 10 documentos más similares
         resultados = sorted(lista, reverse=True)[:10]
-        # --> Multiplicar por 100 para obtener porcentaje
-        resultados = [f"{i+1}) {round(resultados[i][0] * 100, 2)}%    Documento: {resultados[i][1]}" for i in range(len(resultados))]
         # --> Agregar cada valor de la lista en un nuevo renglón
         for resultado in resultados:
-            texto_resultados.insert(tkinter.END, f'{resultado}\n')
+            tabla.insert(parent='',index='end',text='',values=('representación_binaria',
+                f'documento_corpus_{resultado[1]}', f"{round(resultado[0] * 100, 2)}%"))
+        print("[+]Termino la ejecución")
     except:
         print("[-]Se cancelo la ejecución")
 
@@ -60,10 +62,11 @@ def opcion_vectorF():
     """
     print("[+]Inicia la ejecución...")
     # --> Borrar el contenido actual del widget de texto
-    texto_resultados.delete('1.0', tkinter.END)
+    borrar_contenido()
     try:
         # --> Preparar texto usuario
-        texto_usuario = cargar_archivo()
+        texto_usuario, num_prueba = cargar_archivo()
+        insertar_datos_principales(num_prueba, texto_usuario[0])
         texto_normalizado = normalizar_corpus(texto_usuario)
         # --> Crear vector frecuencia
         vectorF_usuario = vectorizador_frecuencia.transform(texto_normalizado).toarray()
@@ -71,11 +74,10 @@ def opcion_vectorF():
         lista = [(cosine(vector_frecuencia[i], vectorF_usuario[0]), i) for i in range(len(vector_frecuencia))]
         # --> Primeros 10 documentos más similares
         resultados = sorted(lista, reverse=True)[:10]
-        # --> Multiplicar por 100 para obtener porcentaje
-        resultados = [f"{i+1}) {round(resultados[i][0] * 100, 2)}%    Documento: {resultados[i][1]}" for i in range(len(resultados))]
         # --> Agregar cada valor de la lista en un nuevo renglón
         for resultado in resultados:
-            texto_resultados.insert(tkinter.END, f'{resultado}\n')
+            tabla.insert(parent='',index='end',text='',values=('representación_frecuencia',
+                f'documento_corpus_{resultado[1]}', f"{round(resultado[0] * 100, 2)}%"))
         print("[+]Termino la ejecución")
     except:
         print("[-]Se cancelo la ejecución")
@@ -88,10 +90,11 @@ def opcion_vectorTF():
     """
     print("[+]Inicia la ejecución...")
     # --> Borrar el contenido actual del widget de texto
-    texto_resultados.delete('1.0', tkinter.END)
+    borrar_contenido()
     try:
         # --> Preparar texto usuario
-        texto_usuario = cargar_archivo()
+        texto_usuario, num_prueba = cargar_archivo()
+        insertar_datos_principales(num_prueba, texto_usuario[0])
         texto_normalizado = normalizar_corpus(texto_usuario)
         # --> Crear vector tf-idf
         vectorTF_usuario = vectorizador_tfidf.transform(texto_normalizado).toarray()
@@ -99,11 +102,10 @@ def opcion_vectorTF():
         lista = [(cosine(vector_tfidf[i], vectorTF_usuario[0]), i) for i in range(len(vector_tfidf))]
         # --> Primeros 10 documentos más similares
         resultados = sorted(lista, reverse=True)[:10]
-        # --> Multiplicar por 100 para obtener porcentaje
-        resultados = [f"{i+1}) {round(resultados[i][0] * 100, 2)}%    Documento: {resultados[i][1]}" for i in range(len(resultados))]
         # --> Agregar cada valor de la lista en un nuevo renglón
         for resultado in resultados:
-            texto_resultados.insert(tkinter.END, f'{resultado}\n')
+            tabla.insert(parent='',index='end',text='',values=('representación_tf-idf',
+                f'documento_corpus_{resultado[1]}', f"{round(resultado[0] * 100, 2)}%"))
         print("[+]Termino la ejecución")
     except:
         print("[-]Se cancelo la ejecución")
@@ -111,9 +113,32 @@ def opcion_vectorTF():
 
 # ---------------------------| Inicio de interfaz |---------------------------
 
+def borrar_contenido():
+    # Borrar todas las filas de la tabla
+    for fila in tabla.get_children():
+        tabla.delete(fila)
+
+    tabla.heading("#1", text="")
+    tabla.heading("#2", text="")
+    tabla.heading("#3", text="")  
+    tabla.column("#1", width=0)
+    tabla.column("#2", width=0)
+    tabla.column("#3", width=0)
+
+def insertar_datos_principales(num, contenido):
+    tabla.heading("#0", text="")
+    tabla.heading("#1", text="documento_prueba_" + num)
+    tabla.heading("#2", text=contenido)
+    tabla.heading("#3", text="")
+    tabla.column("#0", width=0, stretch="NO")
+    tabla.column("#1", anchor="center", width=150)
+    tabla.column("#2", anchor="center", width=400)
+    tabla.column("#3", anchor="center", width=50)
+    tabla.place(relx=0.1, rely=0.45, relwidth=0.8, relheight=0.35)
+
 """Configuracion de ventana"""
 ventana = tkinter.Tk()
-ventana.geometry("500x600")
+ventana.geometry("800x600")
 ventana.title("Práctica 3 NLP")
 ventana.config(bg="white")
 
@@ -126,8 +151,7 @@ boton_VTF = tkinter.Button(ventana, text="Vector TF", fg="white", bg="green", fo
 boton_salir = tkinter.Button(ventana, text="Salir", fg="white", bg="red", font="bold", command=ventana.quit)
 
 # Crear un widget de texto para mostrar los resultados
-texto_resultados = tkinter.Text(ventana, bg="white", font=("Arial", 12))
-texto_resultados.place(relx=0.1, rely=0.45, relwidth=0.8, relheight=0.35)
+tabla = ttk.Treeview(ventana, columns=("Documento", "Contenido", "Coseno"))
 
 # Titulo de ventana
 nombre_ventana = tkinter.Label(text="Selecciona un tipo", bg="white", font="bold", justify="center")
