@@ -29,7 +29,11 @@ def cargar_archivo():
     numero = re.findall(r'\d+', nombre_archivo)
     with open(ruta_archivo, "r", encoding="utf-8") as informacion:
         noticias_seleccionadas = informacion.read().split('\n')
-    return noticias_seleccionadas, numero[0]
+    
+    if numero == []:
+        return noticias_seleccionadas, "0"
+    else:
+        return noticias_seleccionadas, numero[0]
 
 
 def normalizar_corpus(lista_noticias):
