@@ -91,24 +91,24 @@ def opcion_vectorTF():
     print("[+]Inicia la ejecución...")
     # --> Borrar el contenido actual del widget de texto
     borrar_contenido()
-    #try:
-    # --> Preparar texto usuario
-    texto_usuario, num_prueba = cargar_archivo()
-    insertar_datos_principales(num_prueba, texto_usuario[0])
-    texto_normalizado = normalizar_corpus(texto_usuario)
-    # --> Crear vector tf-idf
-    vectorTF_usuario = vectorizador_tfidf.transform(texto_normalizado).toarray()
-    # --> Determinar similitud
-    lista = [(cosine(vector_tfidf[i], vectorTF_usuario[0]), i) for i in range(len(vector_tfidf))]
-    # --> Primeros 10 documentos más similares
-    resultados = sorted(lista, reverse=True)[:10]
-    # --> Agregar cada valor de la lista en un nuevo renglón
-    for resultado in resultados:
-        tabla.insert(parent='',index='end',text='',values=('representación_tf-idf',
-            f'documento_corpus_{resultado[1]+1}', f"{round(resultado[0] * 100, 2)}%"))
-    print("[+]Termino la ejecución")
-    #except:
-    #    print("[-]Se cancelo la ejecución")
+    try:
+        # --> Preparar texto usuario
+        texto_usuario, num_prueba = cargar_archivo()
+        insertar_datos_principales(num_prueba, texto_usuario[0])
+        texto_normalizado = normalizar_corpus(texto_usuario)
+        # --> Crear vector tf-idf
+        vectorTF_usuario = vectorizador_tfidf.transform(texto_normalizado).toarray()
+        # --> Determinar similitud
+        lista = [(cosine(vector_tfidf[i], vectorTF_usuario[0]), i) for i in range(len(vector_tfidf))]
+        # --> Primeros 10 documentos más similares
+        resultados = sorted(lista, reverse=True)[:10]
+        # --> Agregar cada valor de la lista en un nuevo renglón
+        for resultado in resultados:
+            tabla.insert(parent='',index='end',text='',values=('representación_tf-idf',
+                f'documento_corpus_{resultado[1]+1}', f"{round(resultado[0] * 100, 2)}%"))
+        print("[+]Termino la ejecución")
+    except:
+        print("[-]Se cancelo la ejecución")
 
 
 # ---------------------------| Inicio de interfaz |---------------------------
